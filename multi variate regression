@@ -118,3 +118,52 @@ output:-
 9      [98]  [105.80645446312212]    [-7.806454463122122]
 10    [105]  [104.71348103642538]    [0.2865189635746219]
 11    [110]  [104.90895937796836]     [5.091040622031642]
+
+e=dy
+et=np.transpose(e)
+sse=np.dot(et,e)
+print(sse)
+sy=sum(y)
+t=s/yr
+print(sy)
+print(t)
+sst=0
+for i in y:
+    st=(i-t)**2
+    sst+=st
+print(sst)
+ssr=sst-sse
+print(ssr)
+r2=ssr/sst
+print(r2)if r2<0.9:
+    print("we reject the model")
+else:
+    print("we accept the model")
+    output:-
+    [[151.41040622]]
+[1233]
+[102.75]
+[330.25]
+[[178.83959378]]
+[[0.54152791]]
+we reject the model
+ddf=pd.read_excel("C:\\Users\\exam2\\Desktop\\python\\Book2.xlsx")
+ddf=pd.DataFrame(ddf)
+ddf["source of variation"]=["treatments","error","total"]
+ddf["sum of squares"]=[ssr,sse,sst]
+ddf["degrees of freedom"]=[xc-1,xr-xc,xr-1]
+msr,mse=ssr/(xc-1),sse/(xr-xc)
+ddf["mean sum of squares"]=[msr,mse,'----']
+f=msr/mse
+ddf["variance ratio"]=["---",f,"---"]
+print(ddf) 
+output:- source of variation          sum of squares  degrees of freedom  \
+0          treatments  [[178.83959377968236]]                   2   
+1               error  [[151.41040622031764]]                   9   
+2               total                [330.25]                  11   
+
+      mean sum of squares         variance ratio  
+0   [[89.41979688984118]]                    ---  
+1  [[16.823378468924183]]  [[5.315210440935849]]  
+2                    ----                    ---  
+

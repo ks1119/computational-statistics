@@ -166,4 +166,15 @@ output:- source of variation          sum of squares  degrees of freedom  \
 0   [[89.41979688984118]]                    ---  
 1  [[16.823378468924183]]  [[5.315210440935849]]  
 2                    ----                    ---  
-
+#inference
+import scipy.stats as s
+los=eval(input("enter the level of significance"))
+ftab=s.f.ppf(1-los,xc-1,xr-xc)
+print("Ftab =",ftab)
+if(fcal>ftab):
+    print("We accept H0")
+else:
+    print("We reject H0")
+    enter the level of significance0.05
+Ftab = 4.25649472909375
+We accept H0

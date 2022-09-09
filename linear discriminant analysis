@@ -1,0 +1,85 @@
+import pandas as pd
+import numpy as np
+import scipy.stats as s
+import math
+
+
+# 4 2 2 4 2 3 3 6 4 4
+# 9 10 6 8 9 5 8 7 10 8
+# 2.95 6.63 2.53 7.79 3.57 5.65 3.16 5.47
+# 2.58 4.46 2.16 6.22 3.27 3.52
+x1,x2=list(map(eval,input("x1 values : ").split())),list(map(eval,input("x2 values : ").split()))
+x1r,x1c=int(len(x1)/2),2
+x2r,x2c=int(len(x2)/2),2
+x=x1+x2
+x1m=np.array(x1).reshape(x1r,x1c)
+x2m=np.array(x2).reshape(x2r,x2c)
+print("x1 = ",x1m)
+print("x2 = ",x2m)
+xm=np.array(x).reshape(x1r+x2r,x1c)
+print("x = ",xm)
+
+output:
+x1 values : 2.95 6.63 2.53 7.79 3.57 5.65 3.16 5.47
+x2 values : 2.58 4.46 2.16 6.22 3.27 3.52
+x1 =  [[2.95 6.63]
+ [2.53 7.79]
+ [3.57 5.65]
+ [3.16 5.47]]
+x2 =  [[2.58 4.46]
+ [2.16 6.22]
+ [3.27 3.52]]
+x =  [[2.95 6.63]
+ [2.53 7.79]
+ [3.57 5.65]
+ [3.16 5.47]
+ [2.58 4.46]
+ [2.16 6.22]
+ [3.27 3.52]]
+ 
+ 
+u=np.mean(xm,axis=0)
+print("u = ",u)
+u1=np.mean(x1m,axis=0)
+print("u1 = ",u1)
+u2=np.mean(x2m,axis=0)
+print("u2 = ",u2)
+
+output:
+u =  [2.88857143 5.67714286]
+u1 =  [3.0525 6.385 ]
+u2 =  [2.67       4.73333333]
+
+
+#c=(x-u)t*(x-u)/n
+xu=[]
+n=int(x1r+x2r)
+for i in range(n):
+    xu.append(xm[i][0]-u[0])
+    xu.append(xm[i][1]-u[1])
+xu=np.array(xu).reshape(x1r+x2r,x1c)
+xut=np.transpose(xu)
+xp=np.dot(xut,xu)
+c=xp/n
+print("c = ",c)
+
+output:
+c =  [[ 0.20598367 -0.23093265]
+ [-0.23093265  1.69216327]]
+ 
+
+# f1=u1*ci*xk-1/2*u1*ci*u1t+lu(pi)
+ukv=list(map(eval,input("uk values : ").split()))
+uk=np.array(ukv).reshape(1,2)
+ci=np.linalg.inv(c)
+u1t=np.transpose(u1)
+u2t=np.transpose(u2)
+l1=math.log(x1r/n)
+l2=math.log(x2r/n)
+a1=np.dot(u1,ci,uk)
+a2=np.dot(u2,ci,uk)
+b1=np.dot(u1,ci,u1t)
+b2=np.dot(u2,ci,u2t)
+
+f1=a1-(1/2)*b1+l1
+f2=a2-(1/2)*b2+l2
